@@ -13,29 +13,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.11"
 
       - name: Install Python dependencies
-        run: pip install pymupdf pyinstaller
+        run: uv sync
 
       - name: Install Tesseract (for tessdata files)
         run: choco install tesseract --yes
+
+      - name: Convert icon PNG to ICO
+        shell: pwsh
+        run: uv run python -c "from PIL import Image; img = Image.open('assets/app-icon.png'); img.save('assets/app-icon.ico')"
 
       - name: Build EXE
         shell: pwsh
         run: |
           $tess = "C:\Program Files\Tesseract-OCR"
-          pyinstaller --onefile --console `
+          uv run pyinstaller --onefile --windowed `
             --add-data "$tess\tessdata\eng.traineddata;tessdata" `
-            --name extract_amount `
-            extract_amount_mupdf.py
+            --add-data "assets\app-icon.png;assets" `
+            --collect-all customtkinter `
+            --collect-all tkinterdnd2 `
+            --icon "assets\app-icon.ico" `
+            --name tng_toll_summary `
+            gui.py
 
       - name: Upload EXE artifact
         uses: actions/upload-artifact@v4
         with:
-          name: extract_amount-windows
-          path: dist\extract_amount.exe
+          name: tng_toll_summary-windows
+          path: dist\tng_toll_summary.exe
           retention-days: 30

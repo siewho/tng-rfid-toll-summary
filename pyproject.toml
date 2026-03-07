@@ -1,0 +1,11 @@
+[project]
+name = "tng-toll-summary"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "pymupdf",
+    "customtkinter",
+    "tkinterdnd2",
+    "pillow",
+    "pyinstaller",
+]
