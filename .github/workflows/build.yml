@@ -31,7 +31,14 @@ jobs:
       - name: Build EXE
         shell: pwsh
         run: |
-          $tess = Split-Path (Get-Command tesseract).Source
+          $tess = "C:\Program Files\Tesseract-OCR"
+          if (-not (Test-Path "$tess\tessdata\eng.traineddata")) {
+            $found = Get-ChildItem "C:\Program Files", "C:\ProgramData\chocolatey" `
+              -Filter "eng.traineddata" -Recurse -ErrorAction SilentlyContinue |
+              Select-Object -First 1
+            if ($found) { $tess = $found.DirectoryName | Split-Path }
+            else { throw "eng.traineddata not found" }
+          }
           Write-Host "Tesseract at: $tess"
           uv run pyinstaller --onefile --windowed `
             --add-data "$tess\tessdata\eng.traineddata;tessdata" `
