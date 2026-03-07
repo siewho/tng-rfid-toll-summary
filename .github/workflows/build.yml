@@ -1,0 +1,41 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install pymupdf pyinstaller
+
+      - name: Install Tesseract (for tessdata files)
+        run: choco install tesseract --yes
+
+      - name: Build EXE
+        shell: pwsh
+        run: |
+          $tess = "C:\Program Files\Tesseract-OCR"
+          pyinstaller --onefile --console `
+            --add-data "$tess\tessdata\eng.traineddata;tessdata" `
+            --name extract_amount `
+            extract_amount_mupdf.py
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extract_amount-windows
+          path: dist\extract_amount.exe
+          retention-days: 30
