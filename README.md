@@ -89,8 +89,8 @@ The `.exe` is Windows-only. On Mac/Linux you can run the script directly — see
 Requires Python 3.11+, [uv](https://github.com/astral-sh/uv), and Tesseract OCR.
 
 ```bash
-git clone https://github.com/your-username/tng-toll-summary
-cd tng-toll-summary
+git clone https://github.com/siewho/tng-rfid-toll-summary
+cd tng-rfid-toll-summary
 uv sync
 uv run python gui.py
 ```
