@@ -52,8 +52,12 @@ class App(ctk.CTk):
         self.resizable(True, True)
 
         try:
-            img = tk.PhotoImage(file=get_asset("app-icon.png"))
-            self.iconphoto(True, img)
+            ico_path = get_asset("app-icon.ico")
+            if os.path.exists(ico_path):
+                self.wm_iconbitmap(ico_path)
+            else:
+                img = tk.PhotoImage(file=get_asset("app-icon.png"))
+                self.iconphoto(True, img)
         except Exception:
             pass
 
@@ -249,20 +253,21 @@ class App(ctk.CTk):
         tk.Frame(frame, bg=TEXT, height=1).pack(fill="x", pady=(0, 12))
 
         total = sum(amounts)
-        total_row = ctk.CTkFrame(frame, fg_color=BG)
-        total_row.pack(fill="x")
+        total_col = ctk.CTkFrame(frame, fg_color=BG)
+        total_col.pack(anchor="e")
 
         ctk.CTkLabel(
-            total_row,
+            total_col,
             text=f"RM  {total:.2f}",
             font=ctk.CTkFont(size=22, weight="bold"),
             text_color=TEXT,
-        ).pack(side="left")
+            anchor="e",
+        ).pack(anchor="e")
 
         self._copy_btn = ctk.CTkButton(
-            total_row,
+            total_col,
             text="Copy",
-            width=72, height=32,
+            width=72, height=28,
             font=ctk.CTkFont(size=12),
             fg_color="transparent",
             text_color=TEXT,
@@ -272,7 +277,7 @@ class App(ctk.CTk):
             border_color=TEXT,
             command=lambda: self._copy_total(total),
         )
-        self._copy_btn.pack(side="right")
+        self._copy_btn.pack(anchor="e", pady=(6, 0))
 
     def _copy_total(self, total):
         self.clipboard_clear()

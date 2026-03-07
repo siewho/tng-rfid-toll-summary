@@ -26,7 +26,7 @@ jobs:
 
       - name: Convert icon PNG to ICO
         shell: pwsh
-        run: uv run python -c "from PIL import Image; img = Image.open('assets/app-icon.png'); img.save('assets/app-icon.ico')"
+        run: uv run python -c "from PIL import Image; img = Image.open('assets/app-icon.png').convert('RGBA'); img.save('assets/app-icon.ico', format='ICO', sizes=[(16,16),(32,32),(48,48),(256,256)])"
 
       - name: Build EXE
         shell: pwsh
@@ -35,6 +35,7 @@ jobs:
           uv run pyinstaller --onefile --windowed `
             --add-data "$tess\tessdata\eng.traineddata;tessdata" `
             --add-data "assets\app-icon.png;assets" `
+            --add-data "assets\app-icon.ico;assets" `
             --collect-all customtkinter `
             --collect-all tkinterdnd2 `
             --icon "assets\app-icon.ico" `
