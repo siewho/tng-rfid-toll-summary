@@ -22,10 +22,8 @@ This app solves both sides: employees get an accurate total in seconds, and HR g
 
 ### Step 1 — Download the app
 
-1. Go to the [**Actions**](../../actions) tab at the top of this page
-2. Click the latest run with a green checkmark ✅
-3. Scroll down to **Artifacts** and download **`tng_toll_summary-windows`**
-4. Unzip the downloaded file — you'll get **`tng_toll_summary.exe`**
+1. Go to the [**Releases**](../../releases/latest) page
+2. Under **Assets**, click **`tng_toll_summary.exe`** to download it
 
 > No installation required. Just download and run.
 

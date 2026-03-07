@@ -56,3 +56,11 @@ jobs:
           name: tng_toll_summary-windows
           path: dist\tng_toll_summary.exe
           retention-days: 30
+
+      - name: Publish to GitHub Releases (latest)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Build
+          prerelease: true
+          files: dist\tng_toll_summary.exe

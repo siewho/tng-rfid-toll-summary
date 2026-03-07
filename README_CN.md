@@ -22,10 +22,8 @@
 
 ### 第一步 — 下载应用程序
 
-1. 点击本页面顶部的 [**Actions**](../../actions) 选项卡
-2. 点击最新一次带绿色勾选标记 ✅ 的运行记录
-3. 向下滚动至 **Artifacts**，下载 **`tng_toll_summary-windows`**
-4. 解压缩下载的文件，即可得到 **`tng_toll_summary.exe`**
+1. 前往 [**Releases**](../../releases/latest) 页面
+2. 在 **Assets** 下，点击 **`tng_toll_summary.exe`** 即可下载
 
 > 无需安装任何软件，下载后直接运行。
 
