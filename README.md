@@ -1,88 +1,115 @@
-# TNG Toll Summary
+# TNG RFID Toll Summary
 
-Extracts and totals RFID toll charges from TNG eWallet transaction history PDFs.
+A simple Windows app that reads your TNG eWallet RFID toll transaction PDF and gives you the total in one click — ready to paste into your expense claim.
+
+![TNG Toll Summary screenshot](tng-toll-summary-screenshot.png)
+
+---
 
 ## The Problem
 
-Submitting toll expenses for reimbursement means opening the TNG eWallet app, downloading the transaction history PDF, and then manually going through every single line item, copying amounts into a calculator, and hoping nothing got missed or fat-fingered.
+**For employees submitting claims:**
+Every month, claiming toll expenses means opening the TNG eWallet PDF, scrolling through every page, and manually adding up each charge one by one — hoping nothing got missed along the way. The PDF spans multiple pages, lists every single transaction individually, and provides no subtotal anywhere. One fat-finger or missed line and the whole claim is wrong.
 
-The PDF spans multiple pages, mixes image-based and text-based content, and lists every transaction with no subtotal in sight. One missed entry and the whole claim is wrong. It's tedious, error-prone, and a waste of time to repeat every single month.
+**For HR processing claims:**
+When a colleague submits a TNG RFID toll claim, HR has to open the same PDF and manually verify every transaction against what was submitted. With 20–30+ transactions per person per month, and multiple colleagues submitting at once, this means re-counting every single line item, cross-checking totals, and catching any discrepancies — all by hand. It's slow, repetitive, and mistakes are easy to make.
 
-This tool automates that.
+This app solves both sides: employees get an accurate total in seconds, and HR gets a clean number they can verify instantly.
 
-## What It Does
+---
 
-- Opens any TNG eWallet transaction history PDF
-- Reads all pages, including image-based pages using OCR
-- Extracts every `Success` RFID toll transaction amount
-- Prints a numbered list and a grand total
+## How to Use
 
-## Usage
+### Step 1 — Download the app
 
-### Option 1 — Double-click
-Place `extract_amount.exe` in the same folder as your PDF (named `sample.pdf`) and double-click it.
+1. Go to the [**Actions**](../../actions) tab at the top of this page
+2. Click the latest run with a green checkmark ✅
+3. Scroll down to **Artifacts** and download **`tng_toll_summary-windows`**
+4. Unzip the downloaded file — you'll get **`tng_toll_summary.exe`**
 
-### Option 2 — Drag and drop
-Drag your PDF file onto `extract_amount.exe`.
+> No installation required. Just download and run.
 
-### Option 3 — Command line
-```
-extract_amount.exe path\to\your_statement.pdf
-```
+---
 
-### Example output
-```
-No.    Amount (RM)
---------------------
-1             4.67
-2             1.17
-3             3.50
-...
---------------------
-Total       104.20
+### Step 2 — Export your TNG PDF
 
-Total transactions: 27
-```
+1. Open the **TNG eWallet** app on your phone
+2. Tap **Transactions** → **Recent transaction**
+3. Tap the **filter icon** (top right), select RFID
+4. Select your vechile plate number
+5. Select your date range (e.g. the claim month)
+6. Tap the **Send to email**, the **PDF** will send to your inbox
+7. Check email and download the pdf
 
-## Download
+---
 
-Download the latest `extract_amount.exe` from the [Actions](../../actions) tab:
+### Step 3 — Run the app
 
-1. Click the latest successful workflow run
-2. Scroll down to **Artifacts**
-3. Download `extract_amount-windows`
+Double-click **`tng_toll_summary.exe`** to open it.
 
-No Python installation required.
+You'll see a window like the screenshot above.
 
-## How to Get Your TNG PDF
+**Option A — Drag and drop**
+Drag your PDF file from File Explorer and drop it onto the app window.
 
-1. Open TNG eWallet app
-2. Go to **Transaction History**
-3. Tap the download / export icon
-4. Select your date range and export as PDF
-5. Transfer the PDF to your Windows PC
+**Option B — Click to browse**
+Click anywhere inside the dashed box and select your PDF file.
+
+---
+
+### Step 4 — Copy the total
+
+The app will read your PDF (this takes 2–5 seconds) and show:
+
+- A numbered list of every successful RFID toll charge
+- The **total amount** at the bottom
+
+Click **Copy** next to the total — then paste it directly into your expense claim form.
+
+---
+
+## Frequently Asked Questions
+
+**The app says it can't find transactions.**
+Make sure the PDF is a TNG eWallet transaction history export, not a screenshot or a bank statement.
+
+**The total looks wrong.**
+The app only counts **Success** RFID toll transactions. Pending, failed, or non-toll transactions are excluded.
+
+**My antivirus flagged the file.**
+The `.exe` is built automatically by GitHub Actions from the source code in this repository. This is a common false positive for PyInstaller-packaged apps. You can review the source code here and build it yourself if preferred.
+
+**I'm on Mac or Linux.**
+The `.exe` is Windows-only. On Mac/Linux you can run the script directly — see [Build from Source](#build-from-source) below.
+
+---
 
 ## Build from Source
 
-Requires Python 3.11+ and Tesseract OCR installed.
+Requires Python 3.11+, [uv](https://github.com/astral-sh/uv), and Tesseract OCR.
 
 ```bash
-pip install pymupdf
-python extract_amount_mupdf.py path/to/statement.pdf
+git clone https://github.com/your-username/tng-toll-summary
+cd tng-toll-summary
+uv sync
+uv run python gui.py
 ```
 
-To build the Windows `.exe` locally on a Windows machine:
+The Windows `.exe` is built automatically when you push to `main` via GitHub Actions.
 
-```bash
-pip install pymupdf pyinstaller
-pyinstaller --onefile --console --add-data "C:\Program Files\Tesseract-OCR\tessdata\eng.traineddata;tessdata" --name extract_amount extract_amount_mupdf.py
-```
-
-Or just push to `main` and let GitHub Actions build it for you.
+---
 
 ## Tech Stack
 
-- [PyMuPDF](https://pymupdf.readthedocs.io/) — PDF parsing and built-in OCR support
+- [PyMuPDF](https://pymupdf.readthedocs.io/) — PDF parsing with built-in OCR support
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) — reads image-based pages in the PDF
+- [customtkinter](https://github.com/TomSchimansky/CustomTkinter) — GUI framework
 - [PyInstaller](https://pyinstaller.org/) — packages everything into a single `.exe`
 - [GitHub Actions](https://github.com/features/actions) — builds the Windows `.exe` in the cloud
+- [uv](https://github.com/astral-sh/uv) — Python package manager
+
+---
+
+## License
+
+[MIT](LICENSE)
