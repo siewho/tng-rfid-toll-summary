@@ -31,7 +31,8 @@ jobs:
       - name: Build EXE
         shell: pwsh
         run: |
-          $tess = "C:\Program Files\Tesseract-OCR"
+          $tess = Split-Path (Get-Command tesseract).Source
+          Write-Host "Tesseract at: $tess"
           uv run pyinstaller --onefile --windowed `
             --add-data "$tess\tessdata\eng.traineddata;tessdata" `
             --add-data "assets\app-icon.png;assets" `
