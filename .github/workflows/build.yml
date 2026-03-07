@@ -8,6 +8,8 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -63,4 +65,4 @@ jobs:
           tag_name: latest
           name: Latest Build
           prerelease: true
-          files: dist\tng_toll_summary.exe
+          files: dist/tng_toll_summary.exe
