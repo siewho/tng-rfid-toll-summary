@@ -34,13 +34,10 @@ def extract_amounts(pdf_path):
         for block in blocks:
             if "Success" not in block:
                 continue
-            rm_values = RM_PATTERN.findall(block)
-            # First non-zero RM value is the transaction amount
-            for val in rm_values:
-                v = float(val)
-                if v > 0:
-                    amounts.append(v)
-                    break
+            success_count = block.count("Success")
+            non_zero = [float(v) for v in RM_PATTERN.findall(block) if float(v) > 0]
+            # Take one amount per Success (handles both per-row and columnar PDF layouts)
+            amounts.extend(non_zero[:success_count])
     doc.close()
     return amounts
 
