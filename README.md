@@ -4,6 +4,8 @@ A simple Windows app that reads your TNG eWallet RFID toll transaction PDF and g
 
 ![TNG Toll Summary screenshot](tng-toll-summary-screenshot.png)
 
+<video src="tng-toll-summary-video.mp4" controls width="100%"></video>
+
 ---
 
 ## The Problem

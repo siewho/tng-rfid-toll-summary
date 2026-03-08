@@ -4,6 +4,8 @@
 
 ![TNG Toll Summary 截图](tng-toll-summary-screenshot.png)
 
+<video src="tng-toll-summary-video.mp4" controls width="100%"></video>
+
 ---
 
 ## 痛点
