@@ -3,6 +3,14 @@ name: Build Windows EXE
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "*.md"
+      - "*.png"
+      - "*.mp4"
+      - "SOCIAL.md"
+      - "WHY.md"
+      - "WHY_CN.md"
+      - "LICENSE"
   workflow_dispatch:
 
 jobs:
